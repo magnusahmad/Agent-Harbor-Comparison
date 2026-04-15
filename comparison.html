@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agent Harbor — Comparison</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #09090b;
+    --surface: #111113;
+    --surface-hover: #18181b;
+    --border: #1e1e22;
+    --text: #ececef;
+    --text-secondary: #a0a0ab;
+    --text-tertiary: #63636e;
+    --accent: #ececef;
+    --green: #34d399;
+    --green-bg: rgba(52, 211, 153, 0.08);
+    --amber: #fbbf24;
+    --amber-bg: rgba(251, 191, 36, 0.08);
+    --red-bg: rgba(239, 68, 68, 0.06);
+    --blue: #60a5fa;
+    --mono: 'Geist Mono', monospace;
+    --sans: 'Inter', -apple-system, system-ui, sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* ---- Nav ---- */
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 32px;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    background: rgba(9, 9, 11, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 50;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .logo-icon {
+    width: 28px;
+    height: 28px;
+    background: var(--text);
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .logo-icon svg { width: 16px; height: 16px; }
+
+  .nav-links {
+    display: flex;
+    gap: 28px;
+    align-items: center;
+  }
+
+  .nav-links a {
+    font-size: 13px;
+    color: var(--text-tertiary);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .nav-links a:hover { color: var(--text); }
+
+  .nav-links .btn-early {
+    font-size: 12px;
+    padding: 7px 16px;
+    background: var(--text);
+    color: var(--bg);
+    border-radius: 6px;
+    font-weight: 500;
+  }
+
+  /* ---- Header ---- */
+  header {
+    padding: 64px 32px 48px;
+    max-width: 900px;
+  }
+
+  header .kicker {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 16px;
+  }
+
+  header h1 {
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.025em;
+    margin-bottom: 12px;
+  }
+
+  header p {
+    font-size: 15px;
+    color: var(--text-secondary);
+    line-height: 1.65;
+    max-width: 680px;
+  }
+
+  /* ---- Table ---- */
+  .table-container {
+    padding: 0 32px 100px;
+    overflow-x: auto;
+  }
+
+  table {
+    width: 100%;
+    min-width: 820px;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+
+  col.label { width: 26%; }
+  col.data { width: 24.66%; }
+
+  /* ---- Column headers ---- */
+  thead th {
+    text-align: left;
+    vertical-align: bottom;
+    padding: 0 20px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  thead th.label-th {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 400;
+  }
+
+  .col-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 3px;
+  }
+
+  .col-sub {
+    font-size: 12px;
+    color: var(--text-tertiary);
+    font-weight: 400;
+    line-height: 1.4;
+  }
+
+  .col-examples {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-tertiary);
+    margin-top: 6px;
+    opacity: 0.7;
+  }
+
+  /* ---- Section rows ---- */
+  .section-row td {
+    padding: 28px 20px 8px;
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-tertiary);
+    border: none;
+  }
+
+  /* ---- Data rows ---- */
+  tbody tr:not(.section-row) td {
+    padding: 14px 20px;
+    font-size: 13px;
+    line-height: 1.5;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    color: var(--text-secondary);
+  }
+
+  tbody tr:not(.section-row):hover td {
+    background: var(--surface);
+  }
+
+  td.feature {
+    color: var(--text);
+    font-weight: 500;
+    font-size: 13px;
+  }
+
+  td.feature .sub {
+    font-weight: 400;
+    font-size: 12px;
+    color: var(--text-tertiary);
+    margin-top: 1px;
+  }
+
+  /* ---- Status chips ---- */
+  .s {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 13px;
+  }
+
+  .s .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .s.yes .dot { background: var(--green); }
+  .s.partial .dot { background: var(--amber); }
+  .s.no .dot { background: #52525b; }
+
+  .s.yes { color: var(--green); }
+  .s.partial { color: var(--amber); }
+  .s.no { color: var(--text-tertiary); }
+
+  .note {
+    display: block;
+    font-size: 12px;
+    color: var(--text-tertiary);
+    margin-top: 2px;
+    font-weight: 400;
+  }
+
+  /* ---- Pricing row ---- */
+  .pricing-row td {
+    padding-top: 18px !important;
+    padding-bottom: 18px !important;
+    border-bottom: 1px solid var(--border) !important;
+  }
+
+  .price {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: -0.02em;
+  }
+
+  .price .unit {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--text-tertiary);
+  }
+
+  /* ---- Footer ---- */
+  .footer-note {
+    max-width: 900px;
+    padding: 0 32px 80px;
+  }
+
+  .footer-note p {
+    font-size: 12px;
+    color: var(--text-tertiary);
+    line-height: 1.6;
+    border-top: 1px solid var(--border);
+    padding-top: 20px;
+  }
+
+  /* ---- Cmd-K Search ---- */
+  .search-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 100;
+    display: none;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 20vh;
+  }
+
+  .search-overlay.open { display: flex; }
+
+  .search-box {
+    width: 480px;
+    max-width: calc(100vw - 32px);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
+    animation: searchIn 0.15s ease;
+  }
+
+  @keyframes searchIn {
+    from { opacity: 0; transform: scale(0.97) translateY(-8px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  .search-input-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .search-input-wrap svg {
+    width: 16px; height: 16px;
+    color: var(--text-tertiary);
+    flex-shrink: 0;
+  }
+
+  .search-input-wrap input {
+    flex: 1;
+    background: none;
+    border: none;
+    outline: none;
+    font-family: var(--sans);
+    font-size: 14px;
+    color: var(--text);
+  }
+
+  .search-input-wrap input::placeholder {
+    color: var(--text-tertiary);
+  }
+
+  .search-kbd {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-tertiary);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2px 6px;
+    flex-shrink: 0;
+  }
+
+  .search-results {
+    max-height: 280px;
+    overflow-y: auto;
+    padding: 6px;
+  }
+
+  .search-results::-webkit-scrollbar { width: 4px; }
+  .search-results::-webkit-scrollbar-track { background: transparent; }
+  .search-results::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  .search-result-item {
+    padding: 10px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.1s;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .search-result-item:hover,
+  .search-result-item.active {
+    background: var(--surface-hover);
+  }
+
+  .search-result-item .sr-label {
+    font-size: 13px;
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .search-result-item .sr-section {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .search-empty {
+    padding: 24px 16px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-tertiary);
+  }
+
+  .search-footer {
+    padding: 10px 16px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .search-footer span {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-tertiary);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .search-footer kbd {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-tertiary);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 1px 4px;
+  }
+
+  /* ---- Search trigger hint in nav ---- */
+  .nav-search-trigger {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px 6px 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    cursor: pointer;
+    transition: border-color 0.15s;
+    color: var(--text-tertiary);
+    font-size: 13px;
+  }
+
+  .nav-search-trigger:hover { border-color: #2a2a30; }
+
+  .nav-search-trigger svg { width: 14px; height: 14px; }
+
+  .nav-search-trigger .trigger-kbd {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-tertiary);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 1px 5px;
+    margin-left: 4px;
+  }
+
+  /* ---- Row highlight from search ---- */
+  tr.highlight td {
+    background: rgba(52, 211, 153, 0.04) !important;
+    transition: background 1.5s ease;
+  }
+
+  tr.section-row.hidden,
+  tr.data-row.hidden {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 12px 16px; }
+    header { padding: 40px 16px 32px; }
+    header h1 { font-size: 24px; }
+    .table-container { padding: 0 16px 60px; }
+    .footer-note { padding: 0 16px 40px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="https://agent-harbor.com" class="logo">
+    <div class="logo-icon">
+      <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8 2L3 5.5V10.5L8 14L13 10.5V5.5L8 2Z" fill="#09090b"/>
+      </svg>
+    </div>
+    Agent Harbor
+  </a>
+  <div class="nav-links">
+    <a href="https://agent-harbor.com#capabilities">Features</a>
+    <a href="https://docs.agent-harbor.com">Docs</a>
+    <button class="nav-search-trigger" onclick="openSearch()">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="6.5" cy="6.5" r="4.5"/><path d="M10 10l4 4"/></svg>
+      Filter…
+      <span class="trigger-kbd">⌘K</span>
+    </button>
+    <a href="https://agent-harbor.com" class="btn-early">Early Access</a>
+  </div>
+</nav>
+
+<header>
+  <div class="kicker">Comparison</div>
+  <h1>How Agent Harbor fits alongside existing tools</h1>
+  <p>Most teams already use one or more coding agent subscriptions. Specialized agent platforms offer a higher-touch alternative. Agent Harbor is an orchestration layer that works with both — it plugs into your existing subscriptions and adds long-horizon execution, sandboxing, and team-level visibility.</p>
+</header>
+
+<div class="table-container">
+<table>
+  <colgroup>
+    <col class="label">
+    <col class="data">
+    <col class="data">
+    <col class="data">
+  </colgroup>
+  <thead>
+    <tr>
+      <th class="label-th"></th>
+      <th>
+        <div class="col-title">Agent Harbor</div>
+        <div class="col-sub">Orchestration layer</div>
+        <div class="col-examples">Uses your existing subs</div>
+      </th>
+      <th>
+        <div class="col-title">Lab Subscriptions</div>
+        <div class="col-sub">Standalone coding agents</div>
+        <div class="col-examples">Claude Code · Codex · Amp · OpenCode</div>
+      </th>
+      <th>
+        <div class="col-title">Specialized Agent Platforms</div>
+        <div class="col-sub">Full-service autonomous agents</div>
+        <div class="col-examples">Factory.ai · Warp.dev</div>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <tr class="section-row"><td colspan="4">Cost &amp; Access</td></tr>
+
+    <tr class="pricing-row">
+      <td class="feature">Typical cost</td>
+      <td><span class="price">AH fee <span class="unit">+ your subs</span></span><span class="note">Uses inference from subs you already pay for</span></td>
+      <td><span class="price">~$20 <span class="unit">/seat/mo each</span></span><span class="note">Per-tool; teams often stack 2–4</span></td>
+      <td><span class="price">$100–200+ <span class="unit">/seat/mo</span></span><span class="note">5–10× the cost of a lab sub</span></td>
+    </tr>
+
+    <tr>
+      <td class="feature">Vendor lock-in</td>
+      <td><span class="s yes"><span class="dot"></span>None</span><span class="note">Swap models and harnesses freely</span></td>
+      <td><span class="s partial"><span class="dot"></span>Per-vendor</span><span class="note">Tied to one lab's model and tooling</span></td>
+      <td><span class="s no"><span class="dot"></span>High</span><span class="note">Proprietary workflows and billing</span></td>
+    </tr>
+
+    <tr>
+      <td class="feature">Bring your own subscription<div class="sub">Claude Code, Codex, Amp, etc.</div></td>
+      <td><span class="s yes"><span class="dot"></span>Yes</span><span class="note">Plug in any sub's inference; optionally keep its harness</span></td>
+      <td><span class="s no"><span class="dot"></span>Own sub only</span></td>
+      <td><span class="s no"><span class="dot"></span>Own platform only</span></td>
+    </tr>
+
+    <tr class="section-row"><td colspan="4">Agent Capabilities</td></tr>
+
+    <tr>
+      <td class="feature">Long-horizon agents<div class="sub">Tasks running hours or days</div></td>
+      <td><span class="s yes"><span class="dot"></span>Built-in</span><span class="note">Anti-halting harness with stall detection and context recovery</span></td>
+      <td><span class="s no"><span class="dot"></span>Session-scoped</span><span class="note">Tied to terminal session lifetime</span></td>
+      <td><span class="s yes"><span class="dot"></span>Yes</span><span class="note">Core offering</span></td>
+    </tr>
+
+    <tr>
+      <td class="feature">Multi-model inference</td>
+      <td><span class="s yes"><span class="dot"></span>Any provider</span><span class="note">Claude, GPT, Gemini, local models</span></td>
+      <td><span class="s no"><span class="dot"></span>Single vendor</span></td>
+      <td><span class="s partial"><span class="dot"></span>Limited</span><span class="note">Typically one or two providers</span></td>
+    </tr>
+
+    <tr>
+      <td class="feature">Harness flexibility<div class="sub">Use your preferred agent UI</div></td>
+      <td><span class="s yes"><span class="dot"></span>Any harness</span><span class="note">Claude Code, Codex, Amp UIs all supported</span></td>
+      <td><span class="s partial"><span class="dot"></span>Own UI only</span></td>
+      <td><span class="s no"><span class="dot"></span>Proprietary</span></td>
+    </tr>
+
+    <tr>
+      <td class="feature">Work delegation<div class="sub">Where agents execute</div></td>
+      <td><span class="s yes"><span class="dot"></span>Local, managed, or cluster</span><span class="note">Run on local machines, AH instances, or your own infra</span></td>
+      <td><span class="s partial"><span class="dot"></span>Local only</span></td>
+      <td><span class="s partial"><span class="dot"></span>Vendor cloud</span><span class="note">Runs on their infrastructure</span></td>
+    </tr>
+
+    <tr class="section-row"><td colspan="4">Security &amp; Sandboxing</td></tr>
+
+    <tr>
+      <td class="feature">Sandbox isolation<div class="sub">Copy-on-write filesystem</div></td>
+      <td><span class="s yes"><span class="dot"></span>CoW on all platforms</span><span class="note">Windows, macOS, Linux</span></td>
+      <td><span class="s partial"><span class="dot"></span>Basic</span><span class="note">Docker/container-based, typically Linux</span></td>
+      <td><span class="s partial"><span class="dot"></span>Cloud sandbox</span><span class="note">Vendor-managed environment</span></td>
+    </tr>
+
+    <tr>
+      <td class="feature">Multi-OS validation<div class="sub">Test across operating systems</div></td>
+      <td><span class="s yes"><span class="dot"></span>Windows, macOS, Linux</span></td>
+      <td><span class="s partial"><span class="dot"></span>Varies</span><span class="note">Often Linux-only</span></td>
+      <td><span class="s no"><span class="dot"></span>Cloud env only</span></td>
+    </tr>
+
+    <tr>
+      <td class="feature">Credential management<div class="sub">Secrets, tokens, API keys</div></td>
+      <td><span class="s yes"><span class="dot"></span>Centralized</span><span class="note">Team-wide credential lifecycle</span></td>
+      <td><span class="s no"><span class="dot"></span>Manual</span><span class="note">.env files, per-developer</span></td>
+      <td><span class="s partial"><span class="dot"></span>Platform-specific</span></td>
+    </tr>
+
+    <tr class="section-row"><td colspan="4">Team &amp; Governance</td></tr>
+
+    <tr>
+      <td class="feature">Unified monitoring<div class="sub">All agent activity in one view</div></td>
+      <td><span class="s yes"><span class="dot"></span>Single dashboard</span><span class="note">Aggregates usage across Claude, Codex, Amp, etc.</span></td>
+      <td><span class="s no"><span class="dot"></span>Per-tool dashboards</span><span class="note">Separate view per vendor</span></td>
+      <td><span class="s partial"><span class="dot"></span>Own agents only</span></td>
+    </tr>
+
+    <tr>
+      <td class="feature">Consolidated cost tracking<div class="sub">Spend visibility across tools</div></td>
+      <td><span class="s yes"><span class="dot"></span>Cross-vendor</span><span class="note">Total spend across all plugged-in subs</span></td>
+      <td><span class="s no"><span class="dot"></span>Per-vendor billing</span></td>
+      <td><span class="s no"><span class="dot"></span>Own billing only</span></td>
+    </tr>
+
+    <tr>
+      <td class="feature">Developer tool choice<div class="sub">Team members pick their preferred tools</div></td>
+      <td><span class="s yes"><span class="dot"></span>Unrestricted</span><span class="note">Each developer keeps their preferred sub</span></td>
+      <td><span class="s partial"><span class="dot"></span>One tool per team</span><span class="note">Standardize or fragment visibility</span></td>
+      <td><span class="s no"><span class="dot"></span>Mandated platform</span></td>
+    </tr>
+
+    <tr>
+      <td class="feature">Audit trail &amp; session recording</td>
+      <td><span class="s yes"><span class="dot"></span>Full</span><span class="note">Reproducible builds, session replay</span></td>
+      <td><span class="s partial"><span class="dot"></span>Basic</span></td>
+      <td><span class="s partial"><span class="dot"></span>Varies</span></td>
+    </tr>
+
+  </tbody>
+</table>
+</div>
+
+<div class="footer-note">
+  <p>Comparison reflects publicly available information as of April 2026. Feature availability for lab subscriptions and specialized platforms varies by plan and may change. Agent Harbor is currently in early access.</p>
+</div>
+
+<!-- Search Overlay -->
+<div class="search-overlay" id="searchOverlay">
+  <div class="search-box">
+    <div class="search-input-wrap">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="6.5" cy="6.5" r="4.5"/><path d="M10 10l4 4"/></svg>
+      <input type="text" id="searchInput" placeholder="Filter features…" autocomplete="off" spellcheck="false">
+      <span class="search-kbd">esc</span>
+    </div>
+    <div class="search-results" id="searchResults"></div>
+    <div class="search-footer">
+      <span><kbd>↑</kbd><kbd>↓</kbd> navigate</span>
+      <span><kbd>↵</kbd> jump</span>
+      <span><kbd>esc</kbd> close</span>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const overlay = document.getElementById('searchOverlay');
+  const input = document.getElementById('searchInput');
+  const resultsContainer = document.getElementById('searchResults');
+  let activeIndex = -1;
+  let currentResults = [];
+  let filterMode = false;
+
+  // Build index from table rows
+  function buildIndex() {
+    const rows = document.querySelectorAll('tbody tr');
+    const items = [];
+    let currentSection = '';
+    rows.forEach(row => {
+      if (row.classList.contains('section-row')) {
+        currentSection = row.textContent.trim();
+        return;
+      }
+      const featureCell = row.querySelector('td.feature');
+      if (!featureCell) return;
+      // Collect all text from the row for searching
+      const allText = row.textContent.toLowerCase();
+      const label = featureCell.childNodes[0].textContent.trim();
+      items.push({ label, section: currentSection, row, searchText: allText });
+    });
+    return items;
+  }
+
+  const index = buildIndex();
+
+  // Tag data rows and section rows for filtering
+  document.querySelectorAll('tbody tr').forEach(row => {
+    if (row.classList.contains('section-row')) return;
+    row.classList.add('data-row');
+  });
+
+  function openSearch() {
+    overlay.classList.add('open');
+    input.value = '';
+    activeIndex = -1;
+    filterMode = false;
+    showAllRows();
+    renderResults('');
+    requestAnimationFrame(() => input.focus());
+  }
+
+  function closeSearch() {
+    overlay.classList.remove('open');
+    input.value = '';
+    if (filterMode) {
+      showAllRows();
+      filterMode = false;
+    }
+  }
+
+  function showAllRows() {
+    document.querySelectorAll('tbody tr').forEach(r => r.classList.remove('hidden'));
+  }
+
+  function filterRows(query) {
+    const q = query.toLowerCase().trim();
+    if (!q) { showAllRows(); filterMode = false; return; }
+    filterMode = true;
+    const sections = new Set();
+    document.querySelectorAll('tbody tr.data-row').forEach(row => {
+      const text = row.textContent.toLowerCase();
+      if (text.includes(q)) {
+        row.classList.remove('hidden');
+        // Find preceding section row
+        let prev = row.previousElementSibling;
+        while (prev && !prev.classList.contains('section-row')) prev = prev.previousElementSibling;
+        if (prev) sections.add(prev);
+      } else {
+        row.classList.add('hidden');
+      }
+    });
+    // Show/hide section rows based on whether they have visible children
+    document.querySelectorAll('tbody tr.section-row').forEach(sr => {
+      if (sections.has(sr)) {
+        sr.classList.remove('hidden');
+      } else {
+        sr.classList.add('hidden');
+      }
+    });
+  }
+
+  function renderResults(query) {
+    const q = query.toLowerCase().trim();
+    resultsContainer.innerHTML = '';
+    activeIndex = -1;
+
+    if (!q) {
+      currentResults = index;
+    } else {
+      currentResults = index.filter(item => item.searchText.includes(q));
+    }
+
+    if (currentResults.length === 0) {
+      resultsContainer.innerHTML = '<div class="search-empty">No matching features</div>';
+      return;
+    }
+
+    currentResults.forEach((item, i) => {
+      const div = document.createElement('div');
+      div.className = 'search-result-item';
+      div.innerHTML = `<span class="sr-label">${highlight(item.label, q)}</span><span class="sr-section">${item.section}</span>`;
+      div.addEventListener('click', () => jumpTo(item));
+      div.addEventListener('mouseenter', () => setActive(i));
+      resultsContainer.appendChild(div);
+    });
+  }
+
+  function highlight(text, query) {
+    if (!query) return text;
+    const idx = text.toLowerCase().indexOf(query);
+    if (idx === -1) return text;
+    return text.slice(0, idx) + '<mark style="background:rgba(52,211,153,0.15);color:var(--green);border-radius:2px;padding:0 1px;">' + text.slice(idx, idx + query.length) + '</mark>' + text.slice(idx + query.length);
+  }
+
+  function setActive(i) {
+    const items = resultsContainer.querySelectorAll('.search-result-item');
+    items.forEach(el => el.classList.remove('active'));
+    if (i >= 0 && i < items.length) {
+      items[i].classList.add('active');
+      items[i].scrollIntoView({ block: 'nearest' });
+    }
+    activeIndex = i;
+  }
+
+  function jumpTo(item) {
+    closeSearch();
+    // Filter to just this row's matching context
+    filterRows(input.value);
+    // Scroll to row
+    item.row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    item.row.classList.add('highlight');
+    setTimeout(() => item.row.classList.remove('highlight'), 2000);
+  }
+
+  // Event: input
+  input.addEventListener('input', () => {
+    renderResults(input.value);
+    filterRows(input.value);
+  });
+
+  // Event: keyboard nav
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setActive(Math.min(activeIndex + 1, currentResults.length - 1));
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setActive(Math.max(activeIndex - 1, 0));
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      if (activeIndex >= 0 && activeIndex < currentResults.length) {
+        jumpTo(currentResults[activeIndex]);
+      } else if (currentResults.length > 0) {
+        // Keep the filter applied and close
+        closeSearch();
+        // Re-apply filter since closeSearch resets
+        if (input.value.trim()) {
+          filterRows(input.value);
+          filterMode = true;
+        }
+      }
+    } else if (e.key === 'Escape') {
+      closeSearch();
+    }
+  });
+
+  // Event: overlay click to close
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) closeSearch();
+  });
+
+  // Event: Cmd+K / Ctrl+K
+  document.addEventListener('keydown', (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      e.preventDefault();
+      if (overlay.classList.contains('open')) {
+        closeSearch();
+      } else {
+        openSearch();
+      }
+    }
+  });
+
+  // Expose for nav button
+  window.openSearch = openSearch;
+})();
+</script>
+
+</body>
+</html>
