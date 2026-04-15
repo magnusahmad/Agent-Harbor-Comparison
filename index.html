@@ -13,8 +13,8 @@
     --surface-hover: #18181b;
     --border: #1e1e22;
     --text: #ececef;
-    --text-secondary: #a0a0ab;
-    --text-tertiary: #63636e;
+    --text-secondary: #c0c0c8;
+    --text-tertiary: #8c8c99;
     --accent: #ececef;
     --green: #34d399;
     --green-bg: rgba(52, 211, 153, 0.08);
@@ -113,7 +113,7 @@
   }
 
   header h1 {
-    font-size: 32px;
+    font-size: 36px;
     font-weight: 600;
     line-height: 1.25;
     letter-spacing: -0.025em;
@@ -121,7 +121,7 @@
   }
 
   header p {
-    font-size: 15px;
+    font-size: 16px;
     color: var(--text-secondary);
     line-height: 1.65;
     max-width: 680px;
@@ -130,7 +130,7 @@
   /* ---- Table ---- */
   .table-container {
     padding: 0 32px 100px;
-    overflow-x: auto;
+    overflow-x: clip;
   }
 
   table {
@@ -147,8 +147,14 @@
   thead th {
     text-align: left;
     vertical-align: bottom;
-    padding: 0 20px 16px;
+    padding: 16px 20px;
     border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 53px; /* nav height */
+    background: rgba(9, 9, 11, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 40;
   }
 
   thead th.label-th {
@@ -161,14 +167,14 @@
   }
 
   .col-title {
-    font-size: 14px;
+    font-size: 17px;
     font-weight: 600;
     color: var(--text);
     margin-bottom: 3px;
   }
 
   .col-sub {
-    font-size: 12px;
+    font-size: 14px;
     color: var(--text-tertiary);
     font-weight: 400;
     line-height: 1.4;
@@ -176,7 +182,7 @@
 
   .col-examples {
     font-family: var(--mono);
-    font-size: 11px;
+    font-size: 13px;
     color: var(--text-tertiary);
     margin-top: 6px;
     opacity: 0.7;
@@ -186,7 +192,7 @@
   .section-row td {
     padding: 28px 20px 8px;
     font-family: var(--mono);
-    font-size: 11px;
+    font-size: 13px;
     text-transform: uppercase;
     letter-spacing: 0.08em;
     color: var(--text-tertiary);
@@ -195,9 +201,9 @@
 
   /* ---- Data rows ---- */
   tbody tr:not(.section-row) td {
-    padding: 14px 20px;
-    font-size: 13px;
-    line-height: 1.5;
+    padding: 16px 20px;
+    font-size: 15px;
+    line-height: 1.55;
     border-bottom: 1px solid var(--border);
     vertical-align: top;
     color: var(--text-secondary);
@@ -210,12 +216,12 @@
   td.feature {
     color: var(--text);
     font-weight: 500;
-    font-size: 13px;
+    font-size: 15px;
   }
 
   td.feature .sub {
     font-weight: 400;
-    font-size: 12px;
+    font-size: 14px;
     color: var(--text-tertiary);
     margin-top: 1px;
   }
@@ -225,7 +231,7 @@
     display: inline-flex;
     align-items: center;
     gap: 5px;
-    font-size: 13px;
+    font-size: 15px;
   }
 
   .s .dot {
@@ -240,11 +246,11 @@
 
   .s.yes { color: var(--green); }
   .s.partial { color: var(--amber); }
-  .s.no { color: var(--text-tertiary); }
+  .s.no { color: #7a7a86; }
 
   .note {
     display: block;
-    font-size: 12px;
+    font-size: 14px;
     color: var(--text-tertiary);
     margin-top: 2px;
     font-weight: 400;
@@ -277,7 +283,7 @@
   }
 
   .footer-note p {
-    font-size: 12px;
+    font-size: 13px;
     color: var(--text-tertiary);
     line-height: 1.6;
     border-top: 1px solid var(--border);
@@ -504,7 +510,7 @@
 <header>
   <div class="kicker">Comparison</div>
   <h1>How Agent Harbor fits alongside existing tools</h1>
-  <p>Most teams already use one or more coding agent subscriptions. Specialized agent platforms offer a higher-touch alternative. Agent Harbor is an orchestration layer that works with both — it plugs into your existing subscriptions and adds long-horizon execution, sandboxing, and team-level visibility.</p>
+  <!-- <p>Most teams already use one or more coding agent subscriptions. Specialized agent platforms offer a higher-touch alternative. Agent Harbor is an orchestration layer that works with both — it plugs into your existing subscriptions and adds long-horizon execution, sandboxing, and team-level visibility.</p> -->
 </header>
 
 <div class="table-container">
@@ -521,7 +527,7 @@
       <th>
         <div class="col-title">Agent Harbor</div>
         <div class="col-sub">Orchestration layer</div>
-        <div class="col-examples">Uses your existing subs</div>
+        <div class="col-examples">Plugs in your existing subs</div>
       </th>
       <th>
         <div class="col-title">Lab Subscriptions</div>
@@ -541,21 +547,21 @@
 
     <tr class="pricing-row">
       <td class="feature">Typical cost</td>
-      <td><span class="price">AH fee <span class="unit">+ your subs</span></span><span class="note">Uses inference from subs you already pay for</span></td>
+      <td><span class="price">Flat rate <span class="unit">/seat/mo + your subs</span></span><span class="note">Uses inference from subs you already pay for</span></td>
       <td><span class="price">~$20 <span class="unit">/seat/mo each</span></span><span class="note">Per-tool; teams often stack 2–4</span></td>
-      <td><span class="price">$100–200+ <span class="unit">/seat/mo</span></span><span class="note">5–10× the cost of a lab sub</span></td>
+      <td><span class="price">5-10x<span class="unit"></span></span><span class="note">the cost of a lab sub, with high overages due to API metred billing</span></td>
     </tr>
 
     <tr>
       <td class="feature">Vendor lock-in</td>
       <td><span class="s yes"><span class="dot"></span>None</span><span class="note">Swap models and harnesses freely</span></td>
       <td><span class="s partial"><span class="dot"></span>Per-vendor</span><span class="note">Tied to one lab's model and tooling</span></td>
-      <td><span class="s no"><span class="dot"></span>High</span><span class="note">Proprietary workflows and billing</span></td>
+      <td><span class="s no"><span class="dot"></span>High</span><span class="note">Tied to their harness and inference provision</span></td>
     </tr>
 
     <tr>
       <td class="feature">Bring your own subscription<div class="sub">Claude Code, Codex, Amp, etc.</div></td>
-      <td><span class="s yes"><span class="dot"></span>Yes</span><span class="note">Plug in any sub's inference; optionally keep its harness</span></td>
+      <td><span class="s yes"><span class="dot"></span>Yes</span><span class="note">Plug in any sub's inference; optionally keep using its harness</span></td>
       <td><span class="s no"><span class="dot"></span>Own sub only</span></td>
       <td><span class="s no"><span class="dot"></span>Own platform only</span></td>
     </tr>
@@ -564,7 +570,7 @@
 
     <tr>
       <td class="feature">Long-horizon agents<div class="sub">Tasks running hours or days</div></td>
-      <td><span class="s yes"><span class="dot"></span>Built-in</span><span class="note">Anti-halting harness with stall detection and context recovery</span></td>
+      <td><span class="s yes"><span class="dot"></span>Built-in</span><span class="note">Anti-halting harness with delegated tasking (local or hosted clusters)</span></td>
       <td><span class="s no"><span class="dot"></span>Session-scoped</span><span class="note">Tied to terminal session lifetime</span></td>
       <td><span class="s yes"><span class="dot"></span>Yes</span><span class="note">Core offering</span></td>
     </tr>
@@ -573,44 +579,37 @@
       <td class="feature">Multi-model inference</td>
       <td><span class="s yes"><span class="dot"></span>Any provider</span><span class="note">Claude, GPT, Gemini, local models</span></td>
       <td><span class="s no"><span class="dot"></span>Single vendor</span></td>
-      <td><span class="s partial"><span class="dot"></span>Limited</span><span class="note">Typically one or two providers</span></td>
+      <td><span class="s partial"><span class="dot"></span>Limited</span><span class="note">Typically a few providers</span></td>
     </tr>
 
     <tr>
-      <td class="feature">Harness flexibility<div class="sub">Use your preferred agent UI</div></td>
-      <td><span class="s yes"><span class="dot"></span>Any harness</span><span class="note">Claude Code, Codex, Amp UIs all supported</span></td>
-      <td><span class="s partial"><span class="dot"></span>Own UI only</span></td>
-      <td><span class="s no"><span class="dot"></span>Proprietary</span></td>
+      <td class="feature">Harness flexibility<div class="sub">Use your preferred agent</div></td>
+      <td><span class="s yes"><span class="dot"></span>Any harness</span><span class="note">Claude Code, Codex, Amp all supported</span></td>
+      <td><span class="s no"><span class="dot"></span>Own harness only</span></td>
+      <td><span class="s no"><span class="dot"></span>Own harness only</span></td>
     </tr>
 
     <tr>
       <td class="feature">Work delegation<div class="sub">Where agents execute</div></td>
-      <td><span class="s yes"><span class="dot"></span>Local, managed, or cluster</span><span class="note">Run on local machines, AH instances, or your own infra</span></td>
-      <td><span class="s partial"><span class="dot"></span>Local only</span></td>
-      <td><span class="s partial"><span class="dot"></span>Vendor cloud</span><span class="note">Runs on their infrastructure</span></td>
+      <td><span class="s yes"><span class="dot"></span>Local, own cluster or hosted</span><span class="note">Run on local machines, AH instances, or your own infra</span></td>
+      <td><span class="s partial"><span class="dot"></span>Local or vendor cloud</span></td>
+      <td><span class="s partial"><span class="dot"></span>Local or vendor cloud</span><span class="note"></span></td>
     </tr>
 
     <tr class="section-row"><td colspan="4">Security &amp; Sandboxing</td></tr>
 
     <tr>
-      <td class="feature">Sandbox isolation<div class="sub">Copy-on-write filesystem</div></td>
-      <td><span class="s yes"><span class="dot"></span>CoW on all platforms</span><span class="note">Windows, macOS, Linux</span></td>
-      <td><span class="s partial"><span class="dot"></span>Basic</span><span class="note">Docker/container-based, typically Linux</span></td>
+      <td class="feature">Sandbox isolation<div class="sub"></div></td>
+      <td><span class="s yes"><span class="dot"></span>Copy-on-write on all platforms</span><span class="note">Windows, macOS, Linux</span></td>
+      <td><span class="s partial"><span class="dot"></span>Basic</span><span class="note">Docker/container-based</span></td>
       <td><span class="s partial"><span class="dot"></span>Cloud sandbox</span><span class="note">Vendor-managed environment</span></td>
     </tr>
 
     <tr>
-      <td class="feature">Multi-OS validation<div class="sub">Test across operating systems</div></td>
+      <td class="feature">Multi-OS validation<div class="sub">Test patches across platforms</div></td>
       <td><span class="s yes"><span class="dot"></span>Windows, macOS, Linux</span></td>
-      <td><span class="s partial"><span class="dot"></span>Varies</span><span class="note">Often Linux-only</span></td>
-      <td><span class="s no"><span class="dot"></span>Cloud env only</span></td>
-    </tr>
-
-    <tr>
-      <td class="feature">Credential management<div class="sub">Secrets, tokens, API keys</div></td>
-      <td><span class="s yes"><span class="dot"></span>Centralized</span><span class="note">Team-wide credential lifecycle</span></td>
-      <td><span class="s no"><span class="dot"></span>Manual</span><span class="note">.env files, per-developer</span></td>
-      <td><span class="s partial"><span class="dot"></span>Platform-specific</span></td>
+      <td><span class="s no"><span class="dot"></span>Not available</span><span class="note"></span></td>
+      <td><span class="s no"><span class="dot"></span>Not available</span></td>
     </tr>
 
     <tr class="section-row"><td colspan="4">Team &amp; Governance</td></tr>
@@ -619,12 +618,12 @@
       <td class="feature">Unified monitoring<div class="sub">All agent activity in one view</div></td>
       <td><span class="s yes"><span class="dot"></span>Single dashboard</span><span class="note">Aggregates usage across Claude, Codex, Amp, etc.</span></td>
       <td><span class="s no"><span class="dot"></span>Per-tool dashboards</span><span class="note">Separate view per vendor</span></td>
-      <td><span class="s partial"><span class="dot"></span>Own agents only</span></td>
+      <td><span class="s no"><span class="dot"></span>Own agents only</span></td>
     </tr>
 
     <tr>
       <td class="feature">Consolidated cost tracking<div class="sub">Spend visibility across tools</div></td>
-      <td><span class="s yes"><span class="dot"></span>Cross-vendor</span><span class="note">Total spend across all plugged-in subs</span></td>
+      <td><span class="s yes"><span class="dot"></span>Cross-vendor</span><span class="note">Visibilty on usage across all plugged-in subs</span></td>
       <td><span class="s no"><span class="dot"></span>Per-vendor billing</span></td>
       <td><span class="s no"><span class="dot"></span>Own billing only</span></td>
     </tr>
